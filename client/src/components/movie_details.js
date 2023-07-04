@@ -9,14 +9,14 @@ const MovieDetails = (props) => {
           {props.movie.lang} • {props.movie.duration}m • {props.movie.genre}
         </div>
         <div className="description">{props.movie.desc}</div>
+        <video width="750" height="400" autoPlay controls>
+          <source src={props.movie.trailer} type="video/mp4" />
+        </video>
         <Link
           to={"/booking/" + props.movie.id}
           style={{ textDecoration: "none" }}
         >
-          <div className="book-ticket">
-            <img src="/images/ticket.png" alt="" />
-            <span>BOOK TICKETS</span>
-          </div>
+          <div>BOOK TICKETS</div>
         </Link>
       </div>
     </div>

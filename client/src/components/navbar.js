@@ -2,17 +2,17 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 
-function Header() {
+const Navbar = () => {
   return (
-    <div className="nav">
-      <Link className="home-btn" to="/">
+    <div className="navbar">
+      <Link className="navbar-brand ms-4" to="/">
         HOME
       </Link>
-      <Link className="user-img" to="/login">
+      <Link className="btn" to="/login">
         <img width={20} src="user.svg" alt="" />
       </Link>
     </div>
   );
-}
+};
 
-export default Header;
+export default Navbar;
