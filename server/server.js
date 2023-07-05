@@ -14,6 +14,7 @@ mongoose.connection.on("connected", () => {
 
 app.use("/user", require("./routes/userRouter"));
 app.use("/movies", require("./routes/movieRouter"));
+app.use("/booking", require("./routes/bookingRouter"));
 
 const port = process.env.PORT || 5000;
 

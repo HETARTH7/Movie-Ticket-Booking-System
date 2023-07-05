@@ -1,6 +1,5 @@
 import React from "react";
 import MovieDetails from "./movie_details";
-// import ScreeningDetails from "./screening_details";
 import { useParams } from "react-router-dom";
 import { movieData } from "../data";
 import Header from "./navbar";
