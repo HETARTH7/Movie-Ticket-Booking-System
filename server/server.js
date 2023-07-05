@@ -12,7 +12,8 @@ mongoose.connection.on("connected", () => {
 });
 // dotenv.config();
 
-app.use("/user", require("./routes/userRoutes"));
+app.use("/user", require("./routes/userRouter"));
+app.use("/movies", require("./routes/movieRouter"));
 
 const port = process.env.PORT || 5000;
 

@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { movieData } from "../data";
+import axios from "axios";
 
-function movies_list() {
+const Movies_List = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/movies")
+      .then((res) => setMovies(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <h4>Now Showing</h4>
       <div className="row">
-        {movieData.map((movie, key) => {
+        {movies.map((movie, key) => {
           return (
             <Link className="col" key={key} to={"/movie/" + movie.id}>
-              <div style={{ width: "18rem"}} className="card" key={key}>
+              <div style={{ width: "18rem" }} className="card" key={key}>
                 <img
                   style={{ width: "18rem", height: "25rem" }}
                   src={movie.poster}
@@ -23,6 +32,6 @@ function movies_list() {
       </div>
     </div>
   );
-}
+};
 
-export default movies_list;
+export default Movies_List;

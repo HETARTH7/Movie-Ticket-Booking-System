@@ -30,26 +30,19 @@ const Register = () => {
       <div className="text-center">
         <form onSubmit={Register} className="form-control text-center">
           <h1>Join us</h1>
-          <div class="mb-3 row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">
-              Username
-            </label>
-            <div class="col-sm-10">
-              <input
-                onChange={changeUsername}
-                class="form-control"
-              />
+          <div className="mb-3 row">
+            <label className="col-sm-2 col-form-label">Username</label>
+            <div className="col-sm-10">
+              <input onChange={changeUsername} className="form-control" />
             </div>
           </div>
-          <div class="mb-3 row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">
-              Password
-            </label>
-            <div class="col-sm-10">
+          <div className="mb-3 row">
+            <label className="col-sm-2 col-form-label">Password</label>
+            <div className="col-sm-10">
               <input
                 onChange={changePassword}
                 type="password"
-                class="form-control"
+                className="form-control"
               />
             </div>
           </div>
