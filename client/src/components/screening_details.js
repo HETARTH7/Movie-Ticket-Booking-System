@@ -1,44 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const ScreeningDetails = (props) => {
+  const user = localStorage["username"];
+  const shows = ["8AM", "10AM", "2PM", "5PM", "10PM"];
+  const VerifyAuth = (show) => {
+    if (!user) {
+      alert("Sorry! You need to login first");
+      window.location.href = "/login";
+    } else
+      window.location.href = "/booking/id=" + props.movie.id + "&show=" + show;
+  };
   return (
-    <div className="screening-details-container">
-      <h4>SCREENING DETAILS</h4>
-      <div className="screening-details-content">
-        <Link
-          to={"/booking/" + props.movie.id}
-          style={{ "textDecoration": "none" }}
-        >
-          <div className="screening-details-wrap">
-            <span>10 AM </span>
-          </div>
-        </Link>
-        <Link
-          to={"/booking/" + props.movie.id}
-          style={{ "textDecoration": "none" }}
-        >
-          <div className="screening-details-wrap">
-            <span>8 PM </span>
-          </div>
-        </Link>
-        <Link
-          to={"/booking/" + props.movie.id}
-          style={{ "textDecoration": "none" }}
-        >
-          <div className="screening-details-wrap">
-            <span>10 AM </span>
-          </div>
-        </Link>
-        <Link
-          to={"/booking/" + props.movie.id}
-          style={{ "textDecoration": "none" }}
-        >
-          <div className="screening-details-wrap">
-            <span>8 PM </span>
-          </div>
-        </Link>
-      </div>
+    <div>
+      <h1>SHOWTIMES</h1>
+      {shows.map((show, index) => {
+        return (
+          <button
+            onClick={() => VerifyAuth(show)}
+            className="btn btn-outline-dark m-4"
+            key={index}
+          >
+            {show}
+          </button>
+        );
+      })}
     </div>
   );
 };

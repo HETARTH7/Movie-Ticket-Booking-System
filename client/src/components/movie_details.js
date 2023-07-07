@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import ReactPlayer from "react-player";
 
 const MovieDetails = (props) => {
   return (
@@ -9,15 +9,17 @@ const MovieDetails = (props) => {
           {props.movie.lang} • {props.movie.duration}m • {props.movie.genre}
         </div>
         <div className="description">{props.movie.desc}</div>
-        <video width="750" height="400" autoPlay controls>
-          <source src={props.movie.trailer} type="video/mp4" />
-        </video>
-        <Link
-          to={"/booking/" + props.movie.id}
-          style={{ textDecoration: "none" }}
-        >
-          <div>BOOK TICKETS</div>
-        </Link>
+        <div style={{height:"20rem",width:"50rem"}}>
+          <ReactPlayer
+            id="MovieTrailer"
+            url={props.movie.trailer}
+            playing={true}
+            loop={true}
+            controls={false}
+            width="100%"
+            height="100%"
+          />
+        </div>
       </div>
     </div>
   );

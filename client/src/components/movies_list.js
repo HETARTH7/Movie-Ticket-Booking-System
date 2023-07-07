@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Movies_List = () => {
   const [movies, setMovies] = useState([]);
-
+  
   useEffect(() => {
     axios
       .get("http://localhost:5000/movies")

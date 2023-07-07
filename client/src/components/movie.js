@@ -1,16 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MovieDetails from "./movie_details";
 import { useParams } from "react-router-dom";
-import { movieData } from "../data";
 import Header from "./navbar";
+import ScreeningDetails from "./screening_details";
+import axios from "axios";
 
 const Movie = () => {
   const { movie_id } = useParams();
+
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/movies")
+      .then((res) => {
+        setMovies(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container">
       <Header />
-      <MovieDetails movie={movieData[movie_id - 1]} />
-      {/* <ScreeningDetails movie={movieData[movie_id - 1]} /> */}
+      <MovieDetails movie={movies[movie_id - 1]} />
+      <ScreeningDetails movie={movies[movie_id - 1]} />
     </div>
   );
 };
