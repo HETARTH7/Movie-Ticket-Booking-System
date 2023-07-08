@@ -2,12 +2,10 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema({
   movieId: String,
-  userId: String,
+  user: String,
   seatNumber: String,
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  date: String,
+  show: String,
 });
 
 const Booking = mongoose.model("Booking", bookingSchema);

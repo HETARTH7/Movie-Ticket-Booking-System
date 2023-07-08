@@ -9,7 +9,7 @@ const MovieDetails = (props) => {
           {props.movie.lang} • {props.movie.duration}m • {props.movie.genre}
         </div>
         <div className="description">{props.movie.desc}</div>
-        <div style={{height:"20rem",width:"50rem"}}>
+        {/* <div style={{height:"20rem",width:"50rem"}}>
           <ReactPlayer
             id="MovieTrailer"
             url={props.movie.trailer}
@@ -19,7 +19,7 @@ const MovieDetails = (props) => {
             width="100%"
             height="100%"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

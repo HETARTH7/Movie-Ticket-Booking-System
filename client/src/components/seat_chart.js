@@ -1,93 +1,109 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./seat_chart.css";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-class seat_chart extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      seat: [
-        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-        ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
-        ["21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
-        ["31", "32", "33", "34", "35", "36", "37", "38", "39", "40"],
-        ["41", "42", "43", "44", "45", "46", "47", "48", "49", "50"],
-      ],
-      seatAvailable: [
-        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-        ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
-        ["21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
-        ["31", "32", "33", "34", "35", "36", "37", "38", "39", "40"],
-        ["41", "42", "43", "44", "45", "46", "47", "48", "49", "50"],
-      ],
-      seatReserved: [],
-      seatUnavailable: ["12", "13", "14"],
-    };
+const user = localStorage["username"];
+const SeatChar = () => {
+  const { movie_id, date, show } = useParams();
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [bookedSeats, setBookedSeats] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/movies")
+      .then((res) => {
+        setMovies(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/booking", { movie_id, date, show })
+      .then((res) => {
+        setBookedSeats(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [date, movie_id, show]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  onClickData(seat) {
-    if (this.state.seatReserved.indexOf(seat) > -1) {
-      this.setState({
-        seatAvailable: this.state.seatAvailable.concat(seat),
-        seatReserved: this.state.seatReserved.filter((res) => res !== seat),
-      });
-    } else {
-      this.setState({
-        seatReserved: this.state.seatReserved.concat(seat),
-        seatAvailable: this.state.seatAvailable.filter((res) => res !== seat),
-      });
+  const selectSeat = (seat_no) => {
+    if (bookedSeats.includes(seat_no)) {
+      console.log("Seat already booked");
+      return;
     }
-  }
+    if (selectedSeats.includes(seat_no)) {
+      setSelectedSeats(selectedSeats.filter((seat) => seat !== seat_no));
+    } else {
+      setSelectedSeats([...selectedSeats, seat_no]);
+    }
+  };
 
-  render() {
-    return (
-      <div>
-        <h4>PICK YOUR SEATS</h4>
-        <DrawGrid
-          seat={this.state.seat}
-          available={this.state.seatAvailable}
-          reserved={this.state.seatReserved}
-          unavailable={this.state.seatUnavailable}
-          onClickData={this.onClickData.bind(this)}
-        />
-      </div>
-    );
-  }
-}
+  const seats = [
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+    ["11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+    ["21", "22", "23", "24", "25", "26", "27", "28", "29", "30"],
+    ["31", "32", "33", "34", "35", "36", "37", "38", "39", "40"],
+    ["41", "42", "43", "44", "45", "46", "47", "48", "49", "50"],
+  ];
 
-export default seat_chart;
+  // Calculate total cost
+  const calculateTotalCost = () => {
+    let totalCost = 0;
+    selectedSeats.forEach((seat_no) => {
+      const seatNumber = parseInt(seat_no);
+      if (seatNumber >= 1 && seatNumber <= 10) {
+        totalCost += 250;
+      } else if (seatNumber >= 11 && seatNumber <= 30) {
+        totalCost += 200;
+      } else if (seatNumber >= 31 && seatNumber <= 50) {
+        totalCost += 150;
+      }
+    });
+    return totalCost;
+  };
 
-class DrawGrid extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <table className="grid">
-          <tbody>
-            {this.props.seat.map((numList, i) => (
-              <tr key={i}>
-                {numList.map((seat_no) => (
-                  <td
-                    className={
-                      this.props.unavailable.indexOf(seat_no) > -1
-                        ? "unavailable"
-                        : this.props.reserved.indexOf(seat_no) > -1
-                        ? "reserved"
-                        : "available"
-                    }
-                    key={seat_no}
-                    onClick={(e) => this.onClickSeat(seat_no)}
-                  >
-                    {seat_no}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+  const totalCost = calculateTotalCost();
 
-  onClickSeat(seat) {
-    this.props.onClickData(seat);
-  }
-}
+  return (
+    <div className="container">
+      <h1>Pick your seats</h1>
+      <h3>
+        {movies[movie_id - 1].name} • {date} • {show}
+      </h3>
+      <table className="grid">
+        <tbody>
+          {seats.map((numList, i) => (
+            <tr key={i}>
+              {numList.map((seat_no) => (
+                <td
+                  onClick={() => selectSeat(seat_no)}
+                  className={
+                    bookedSeats.includes(seat_no)
+                      ? "unavailable"
+                      : selectedSeats.includes(seat_no)
+                      ? "reserved"
+                      : ""
+                  }
+                  key={seat_no}
+                >
+                  {seat_no}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h1>Total Cost: {totalCost}</h1>
+    </div>
+  );
+};
+
+export default SeatChar;
