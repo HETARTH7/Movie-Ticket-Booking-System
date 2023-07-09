@@ -10,7 +10,6 @@ const SeatChar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
-
   useEffect(() => {
     axios
       .get("http://localhost:5000/movies")
@@ -23,9 +22,11 @@ const SeatChar = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/booking", { movie_id, date, show })
+      .get("http://localhost:5000/booking", {
+        params: { movie_id, date, show },
+      })
       .then((res) => {
-        setBookedSeats(res.data);
+        setBookedSeats(res.data.bookedSeats);
       })
       .catch((err) => console.log(err));
   }, [date, movie_id, show]);
@@ -54,7 +55,6 @@ const SeatChar = () => {
     ["41", "42", "43", "44", "45", "46", "47", "48", "49", "50"],
   ];
 
-  // Calculate total cost
   const calculateTotalCost = () => {
     let totalCost = 0;
     selectedSeats.forEach((seat_no) => {
@@ -72,36 +72,63 @@ const SeatChar = () => {
 
   const totalCost = calculateTotalCost();
 
+  const BookTicket = () => {
+    axios
+      .post("http://localhost:5000/booking", {
+        movie_id,
+        date,
+        show,
+        user,
+        selectedSeats,
+      })
+      .then((res) => {
+        alert("Seats booked successfully");
+        window.location.href = "/";
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="container">
       <h1>Pick your seats</h1>
       <h3>
         {movies[movie_id - 1].name} • {date} • {show}
       </h3>
-      <table className="grid">
-        <tbody>
-          {seats.map((numList, i) => (
-            <tr key={i}>
-              {numList.map((seat_no) => (
-                <td
-                  onClick={() => selectSeat(seat_no)}
-                  className={
-                    bookedSeats.includes(seat_no)
-                      ? "unavailable"
-                      : selectedSeats.includes(seat_no)
-                      ? "reserved"
-                      : ""
-                  }
-                  key={seat_no}
-                >
-                  {seat_no}
-                </td>
+      <div className="d-flex justify-content-between">
+        <div className="seats-container">
+          <table className="grid">
+            <tbody>
+              {seats.map((numList, i) => (
+                <tr key={i}>
+                  {numList.map((seat_no) => (
+                    <td
+                      onClick={() => selectSeat(seat_no)}
+                      className={
+                        bookedSeats.includes(seat_no)
+                          ? "unavailable"
+                          : selectedSeats.includes(seat_no)
+                          ? "reserved"
+                          : ""
+                      }
+                      key={seat_no}
+                    >
+                      {seat_no}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <h1>Total Cost: {totalCost}</h1>
+            </tbody>
+          </table>
+        </div>
+        {totalCost > 0 ? (
+          <div className="amount-container">
+            <p>Ticket Price: {totalCost}</p>
+            <button className="btn btn-success" onClick={BookTicket}>
+              Pay
+            </button>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
