@@ -9,4 +9,14 @@ const GetMovies = async (req, res) => {
   }
 };
 
-module.exports = { GetMovies };
+const AddMovies = (req, res) => {
+  try {
+    const newMovie = new Movie(req.body);
+    newMovie.save();
+    return res.status(200).json("Movie added");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+module.exports = { GetMovies, AddMovies };

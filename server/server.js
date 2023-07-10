@@ -1,16 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://0.0.0.0/moviedb");
+mongoose.connect(process.env.MONGO_URI);
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
-// dotenv.config();
 
 app.use("/user", require("./routes/userRouter"));
 app.use("/movies", require("./routes/movieRouter"));

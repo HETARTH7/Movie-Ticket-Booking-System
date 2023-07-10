@@ -1,12 +1,12 @@
 import React from "react";
 import MoviesList from "./movies_list";
-import Header from "./navbar";
+import Navbar from "./navbar";
 
 const Home = () => {
   const user = localStorage["username"];
   return (
     <div className="container">
-      <Header />
+      <Navbar />
       <h1 hidden={!user ? true : false}>Welcome {user}</h1>
       <MoviesList />
     </div>

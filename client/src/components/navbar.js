@@ -11,12 +11,16 @@ const Navbar = () => {
   };
   return (
     <div className="navbar">
-      <Link className="navbar-brand ms-4" to="/">
+      <Link className="navbar-brand text-white ms-4" to="/">
         HOME
       </Link>
       <div className="d-flex">
-        <Link className="btn" to="/login">
-          <img width={20} src="user.svg" alt="" />
+        <Link
+          className="btn btn-outline-success"
+          to="/login"
+          hidden={!user ? false : true}
+        >
+          Sign in
         </Link>
         <button
           className="btn btn-outline-danger"

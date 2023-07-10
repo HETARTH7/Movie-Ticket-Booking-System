@@ -43,14 +43,14 @@ const ScreeningDetails = (props) => {
         "/booking/" + props.movie.id + "/" + selectedDate + "/" + show;
   };
   return (
-    <div>
+    <div className="mt-5 pt-5">
       <h1>Showtimes for {selectedDate}</h1>
       <div>
         {dates.map((showDates, index) => {
           return (
             <button
               onClick={() => setSelectedDate(showDates)}
-              className="btn btn-outline-dark m-4"
+              className="btn btn-outline-light m-4"
               key={index}
             >
               {showDates}
@@ -63,7 +63,7 @@ const ScreeningDetails = (props) => {
         return (
           <button
             onClick={() => VerifyAuth(show)}
-            className="btn btn-outline-dark m-4"
+            className="btn btn-outline-light m-4"
             key={index}
           >
             {show}

@@ -38,4 +38,19 @@ const GetBookings = async (req, res) => {
   }
 };
 
-module.exports = { BookTicket, GetBookings };
+const GetUserBookings = async (req, res) => {
+  const user = req.params.user;
+  try {
+    const bookings = await Booking.find({
+      user: user,
+    });
+    if (bookings.length === 0) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    return res.status(200).json(bookings);
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to fetch bookings" });
+  }
+};
+
+module.exports = { BookTicket, GetBookings, GetUserBookings };

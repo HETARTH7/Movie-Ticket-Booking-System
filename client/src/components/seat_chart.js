@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./seat_chart.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const user = localStorage["username"];
@@ -119,6 +119,9 @@ const SeatChar = () => {
               ))}
             </tbody>
           </table>
+          <Link to={"/"} className="btn btn-danger mt-5">
+            Cancel
+          </Link>
         </div>
         {totalCost > 0 ? (
           <div className="amount-container">

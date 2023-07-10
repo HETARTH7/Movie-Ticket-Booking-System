@@ -35,8 +35,8 @@ const Register = () => {
   return (
     <div className="container">
       <Header />
-      <div className="text-center">
-        <form onSubmit={Login} className="form-control text-center">
+      <div className="text-center mt-5 pt-5 m-5">
+        <form onSubmit={Login} className="text-center">
           <h1>Login</h1>
           <div className="mb-3 row">
             <label className="col-sm-2 col-form-label">Username</label>
@@ -59,7 +59,7 @@ const Register = () => {
               />
             </div>
           </div>
-          <p className="">
+          <p>
             Don't have an accound? <a href="/register">Register</a>
           </p>
           <button
