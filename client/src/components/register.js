@@ -17,7 +17,10 @@ const Register = () => {
   const Register = (e) => {
     e.preventDefault();
     try {
-      axios.post("http://localhost:5000/user/register", { username, password });
+      axios.post(
+        "https://movie-ticket-booking-app-0vii.onrender.com/user/register",
+        { username, password }
+      );
       window.location.href = "/";
     } catch (err) {
       console.log(err);

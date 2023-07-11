@@ -7,7 +7,7 @@ const Movies_List = () => {
   
   useEffect(() => {
     axios
-      .get("http://localhost:5000/movies")
+      .get("https://movie-ticket-booking-app-0vii.onrender.com/movies")
       .then((res) => setMovies(res.data))
       .catch((err) => console.log(err));
   }, []);

@@ -19,10 +19,13 @@ const Register = () => {
   const Login = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/user/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://movie-ticket-booking-app-0vii.onrender.com/user/login",
+        {
+          username,
+          password,
+        }
+      );
       const accessToken = response.data.token;
       setAuth({ username, password, accessToken });
       localStorage["username"] = username;

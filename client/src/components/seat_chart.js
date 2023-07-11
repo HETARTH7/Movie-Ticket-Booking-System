@@ -12,11 +12,10 @@ const SeatChar = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
   const [isPaymentMode, setIsPaymentMode] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/movies")
+      .get("https://movie-ticket-booking-app-0vii.onrender.com/movies")
       .then((res) => {
         setMovies(res.data);
         setIsLoading(false);
@@ -26,7 +25,7 @@ const SeatChar = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/booking", {
+      .get("https://movie-ticket-booking-app-0vii.onrender.com/booking", {
         params: { movie_id, date, show },
       })
       .then((res) => {
@@ -153,11 +152,7 @@ const SeatChar = () => {
               className="btn btn-outline-success m-3"
               onClick={handlePaymentSuccess}
             >
-              {isProcessing ? (
-                <span>Processing</span>
-              ) : (
-                <span>Pay ₹{totalCost}</span>
-              )}
+              Pay ₹{totalCost}
             </button>
           </div>
         ) : (
