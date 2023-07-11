@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./seat_chart.css";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import Payment from "./payment";
 
 const user = localStorage["username"];
 const SeatChar = () => {
@@ -10,6 +11,9 @@ const SeatChar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [bookedSeats, setBookedSeats] = useState([]);
+  const [isPaymentMode, setIsPaymentMode] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/movies")
@@ -72,6 +76,19 @@ const SeatChar = () => {
 
   const totalCost = calculateTotalCost();
 
+  const handlePayClick = () => {
+    setIsPaymentMode(true);
+  };
+
+  const handlePaymentCancel = () => {
+    setIsPaymentMode(false);
+  };
+
+  const handlePaymentSuccess = () => {
+    alert("Tickets booked successfully");
+    BookTicket();
+  };
+
   const BookTicket = () => {
     axios
       .post("http://localhost:5000/booking", {
@@ -82,7 +99,7 @@ const SeatChar = () => {
         selectedSeats,
       })
       .then((res) => {
-        alert("Seats booked successfully");
+        console.log("Ticket booked");
         window.location.href = "/";
       })
       .catch((err) => console.log(err));
@@ -123,14 +140,36 @@ const SeatChar = () => {
             Cancel
           </Link>
         </div>
-        {totalCost > 0 ? (
-          <div className="amount-container">
-            <p>Ticket Price: {totalCost}</p>
-            <button className="btn btn-success" onClick={BookTicket}>
-              Pay
+        {isPaymentMode ? (
+          <div className="amount-container text-center">
+            <Payment />
+            <button
+              className="btn btn-outline-danger m-3"
+              onClick={handlePaymentCancel}
+            >
+              Cancel Payment
+            </button>
+            <button
+              className="btn btn-outline-success m-3"
+              onClick={handlePaymentSuccess}
+            >
+              {isProcessing ? (
+                <span>Processing</span>
+              ) : (
+                <span>Pay ₹{totalCost}</span>
+              )}
             </button>
           </div>
-        ) : null}
+        ) : (
+          totalCost > 0 && (
+            <div className="amount-container">
+              <p>Ticket Price: {totalCost}</p>
+              <button className="btn btn-success" onClick={handlePayClick}>
+                Pay
+              </button>
+            </div>
+          )
+        )}
       </div>
     </div>
   );
