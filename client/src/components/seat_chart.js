@@ -88,9 +88,9 @@ const SeatChar = () => {
     BookTicket();
   };
 
-  const BookTicket = () => {
-    axios
-      .post("http://localhost:5000/booking", {
+  const BookTicket = async () => {
+    await axios
+      .post("https://movie-ticket-booking-app-0vii.onrender.com/booking", {
         movie_id,
         date,
         show,

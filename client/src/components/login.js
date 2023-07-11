@@ -38,7 +38,7 @@ const Register = () => {
   return (
     <div className="container">
       <Header />
-      <div className="text-center mt-5 pt-5 m-5">
+      <div className="text-center mt-5 p-5 m-5 border rounded">
         <form onSubmit={Login} className="text-center">
           <h1>Login</h1>
           <div className="mb-3 row">

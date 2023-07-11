@@ -14,10 +14,10 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  const Register = (e) => {
+  const Register = async (e) => {
     e.preventDefault();
     try {
-      axios.post(
+      await axios.post(
         "https://movie-ticket-booking-app-0vii.onrender.com/user/register",
         { username, password }
       );
@@ -30,7 +30,7 @@ const Register = () => {
   return (
     <div className="container">
       <Header />
-      <div className="text-center mt-5 pt-5 m-5">
+      <div className="text-center mt-5 p-5 m-5 border rounded">
         <form onSubmit={Register} className="text-center">
           <h1>Join us</h1>
           <div className="mb-3 row">
